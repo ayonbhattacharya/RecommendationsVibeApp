@@ -64,7 +64,8 @@ function App() {
       formData.append('location', location);
 
       // Send POST request to Spring Boot backend
-      const apiResponse = await fetch('http://localhost:8080/api/menu/speech-to-menu-recommendations', {
+      const apiUrl = process.env.REACT_APP_API_URL || 'http://localhost:8080';
+      const apiResponse = await fetch(`${apiUrl}/api/menu/speech-to-menu-recommendations`, {
         method: 'POST',
         body: formData,
       });
