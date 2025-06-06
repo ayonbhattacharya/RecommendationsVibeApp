@@ -64,7 +64,9 @@ function App() {
       formData.append('location', location);
 
       // Send POST request to Spring Boot backend
-      const apiUrl = process.env.REACT_APP_API_URL || 'http://localhost:8080';
+      const apiUrl = process.env.REACT_APP_API_URL || 'https://recommendationsvibeapp-backend4.onrender.com';
+      console.log('Environment variable REACT_APP_API_URL:', process.env.REACT_APP_API_URL);
+      console.log('Using API URL:', apiUrl);
       const apiResponse = await fetch(`${apiUrl}/api/menu/speech-to-menu-recommendations`, {
         method: 'POST',
         body: formData,
