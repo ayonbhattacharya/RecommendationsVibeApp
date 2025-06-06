@@ -101,8 +101,10 @@ temp/
 *.key
 *.pem
 
-# Deployment files
-Dockerfile
+# Deployment files (keeping Dockerfiles for Render deployment)
 docker-compose.yml
 railway.json
 render.yaml
+
+# IDE files with sensitive data
+.idea/AugmentWebviewStateStore.xml
