@@ -76,7 +76,7 @@ public class MenuRecommendationController {
     }
 
     @PostMapping(value = "/speech-to-menu-recommendations", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public ResponseEntity<RecommendationResponse> speechToMenuRecommendations(
+    public ResponseEntity<?> speechToMenuRecommendations(
             @RequestParam("file") MultipartFile speechFile,
             @RequestParam(value = "location", required = false) String location) {
 
@@ -131,7 +131,7 @@ public class MenuRecommendationController {
     }
 
     @PostMapping("/text-to-menu-recommendations")
-    public ResponseEntity<RecommendationResponse> textToMenuRecommendations(
+    public ResponseEntity<?> textToMenuRecommendations(
             @RequestParam("query") String query,
             @RequestParam(value = "location", required = false) String location) {
 
