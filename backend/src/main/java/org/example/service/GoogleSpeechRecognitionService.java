@@ -77,10 +77,22 @@ public class GoogleSpeechRecognitionService {
 
     private SpeechClient createSpeechClient() throws IOException {
         try {
-            // Load credentials from the specified file
-            GoogleCredentials credentials = GoogleCredentials.fromStream(
-                new FileInputStream(credentialsPath)
-            );
+            GoogleCredentials credentials;
+
+            // Try to get credentials from environment variable first (for production)
+            String credentialsJson = System.getenv("GOOGLE_CREDENTIALS_JSON");
+            if (credentialsJson != null && !credentialsJson.trim().isEmpty()) {
+                System.out.println("Using Google credentials from environment variable");
+                credentials = GoogleCredentials.fromStream(
+                    new java.io.ByteArrayInputStream(credentialsJson.getBytes())
+                );
+            } else {
+                // Fallback to file-based credentials (for local development)
+                System.out.println("Using Google credentials from file: " + credentialsPath);
+                credentials = GoogleCredentials.fromStream(
+                    new FileInputStream(credentialsPath)
+                );
+            }
 
             // Create SpeechSettings with the credentials
             SpeechSettings speechSettings = SpeechSettings.newBuilder()
@@ -89,7 +101,7 @@ public class GoogleSpeechRecognitionService {
 
             return SpeechClient.create(speechSettings);
         } catch (Exception e) {
-            throw new IOException("Failed to create Speech client with credentials from: " + credentialsPath, e);
+            throw new IOException("Failed to create Speech client. Tried environment variable GOOGLE_CREDENTIALS_JSON and file: " + credentialsPath + ". Error: " + e.getMessage(), e);
         }
     }
 
