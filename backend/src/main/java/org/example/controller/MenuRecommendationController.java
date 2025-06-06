@@ -81,6 +81,10 @@ public class MenuRecommendationController {
             @RequestParam(value = "location", required = false) String location) {
 
         try {
+            System.out.println("=== SPEECH TO MENU RECOMMENDATIONS REQUEST ===");
+            System.out.println("Request received at: " + java.time.LocalDateTime.now());
+            System.out.println("File parameter name: file");
+            System.out.println("Location parameter: " + location);
             // Log the received file
             System.out.println("Received speech file for menu recommendations: " + speechFile.getOriginalFilename() +
                     ", size: " + speechFile.getSize() + " bytes");
@@ -88,7 +92,7 @@ public class MenuRecommendationController {
             // Check if file is empty
             if (speechFile.isEmpty()) {
                 System.out.println("Error: File is empty");
-                return ResponseEntity.badRequest().build();
+                return ResponseEntity.badRequest().body("Error: Audio file is empty");
             }
 
             // Step 1: Convert speech to text
@@ -122,7 +126,7 @@ public class MenuRecommendationController {
         } catch (Exception e) {
             System.out.println("Error processing speech to menu recommendations: " + e.getMessage());
             e.printStackTrace();
-            return ResponseEntity.badRequest().build();
+            return ResponseEntity.badRequest().body("Error processing speech: " + e.getMessage());
         }
     }
 
@@ -156,7 +160,7 @@ public class MenuRecommendationController {
         } catch (Exception e) {
             System.out.println("Error processing text to menu recommendations: " + e.getMessage());
             e.printStackTrace();
-            return ResponseEntity.badRequest().build();
+            return ResponseEntity.badRequest().body("Error processing text query: " + e.getMessage());
         }
     }
 }
